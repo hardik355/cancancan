@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
-  # devise_for :users
+  get 'welcomes/index'
   resources :items
-  # resources :users
   resources :roles
-
   root to: "items#index"
 
   devise_for :users
@@ -11,4 +9,9 @@ Rails.application.routes.draw do
     resources :users
   end
 
+  authenticated :user do
+    root :to => 'items#index', as: :authenticated_root
+  end
+  root :to => 'welcome#index'
+  
 end

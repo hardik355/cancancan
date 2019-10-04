@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
-  # before_filter :authenticate_user!
-
+  before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /roles
   # GET /roles.json
@@ -11,7 +11,7 @@ class RolesController < ApplicationController
   # GET /roles/1
   # GET /roles/1.json
   def show
-    @role = Role.find(params:[id])
+    @role = Role.find(role_params:[id])
   end
 
   # GET /roles/new
@@ -21,7 +21,7 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
-    @role = Role.find(params:[id])
+    @role = Role.find(role_params:[id])
   end
 
   # POST /roles
@@ -37,14 +37,6 @@ class RolesController < ApplicationController
         format.html { render :new }
         format.json { render json: @role.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  def show
-    if @role.users.length == 0
-      @assosciated_users = "None"
-    else
-      @assosciated_users = @role.users.map(&:name).join(", ")
     end
   end
 
